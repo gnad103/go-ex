@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package service;
+option go_package = "github.com/gnad103/go-ex/proto";
+
+// UserService defines our user management service functionality
+service UserService {
+  // GetUser retrieves a user by ID
+  rpc GetUser(GetUserRequest) returns (User) {}
+  
+  // CreateUser creates a new user
+  rpc CreateUser(CreateUserRequest) returns (User) {}
+  
+  // ListUsers retrieves all users
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {}
+}
+
+// ProductService defines our product management functionality
+service ProductService {
+  // GetProduct retrieves a product by ID
+  rpc GetProduct(GetProductRequest) returns (Product) {}
+  
+  // CreateProduct creates a new product
+  rpc CreateProduct(CreateProductRequest) returns (Product) {}
+  
+  // ListProducts retrieves all products
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {}
+}
+
+// User represents a user in our system
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  int32 age = 4;
+}
+
+// GetUserRequest is used to request a specific user by ID
+message GetUserRequest {
+  string id = 1;
+}
+
+// CreateUserRequest is used to create a new user
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  int32 age = 3;
+}
+
+// ListUsersRequest is used to request all users
+message ListUsersRequest {
+  // Optional pagination parameters
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+// ListUsersResponse contains a list of users
+message ListUsersResponse {
+  repeated User users = 1;
+}
+
+// Product represents a product in our system
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+}
+
+// GetProductRequest is used to request a specific product by ID
+message GetProductRequest {
+  string id = 1;
+}
+
+// CreateProductRequest is used to create a new product
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+}
+
+// ListProductsRequest is used to request all products
+message ListProductsRequest {
+  // Optional pagination parameters
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+// ListProductsResponse contains a list of products
+message ListProductsResponse {
+  repeated Product products = 1;
+}

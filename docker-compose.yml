@@ -1,0 +1,49 @@
+version: '3'
+
+# Tạo các service
+services:
+  # Service của Go
+  go-service:
+    # Xây dựng image từ Dockerfile
+    build:
+      context: .
+      dockerfile: go-service/Dockerfile
+    # Publish port 50051 của container ra ngoài
+    ports:
+      - "50051:50051"
+    # Cho phép service này tham gia vào network microservices-network
+    networks:
+      - microservices-network
+
+  # Service của Python
+  python-service:
+    # Xây dựng image từ Dockerfile
+    build:
+      context: .
+      dockerfile: python-service/Dockerfile
+    # Publish port 50052 của container ra ngoài
+    ports:
+      - "50052:50052"
+    # Cho phép service này tham gia vào network microservices-network
+    networks:
+      - microservices-network
+
+  # Service của API Gateway
+  api-gateway:
+    # Xây dựng image từ Dockerfile
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    # Publish port 8080 của container ra ngoài
+    ports:
+      - "8080:8080"
+    # Cho phép service này tham gia vào network microservices-network
+    networks:
+      - microservices-network
+
+# Tạo network
+networks:
+  # Tạo network microservices-network
+  microservices-network:
+    # Loại driver của network (bridge, host, overlay,...)
+    driver: bridge
