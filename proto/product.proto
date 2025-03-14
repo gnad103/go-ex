@@ -1,0 +1,37 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "github.com/yourusername/go-ex/proto";
+
+service ProductService {
+  rpc GetProduct(ProductRequest) returns (ProductResponse) {}
+  rpc CreateProduct(CreateProductRequest) returns (ProductResponse) {}
+  rpc GetProductsForUser(UserProductRequest) returns (ProductListResponse) {}
+}
+
+message ProductRequest {
+  int64 id = 1;
+}
+
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+  int64 user_id = 4;
+}
+
+message UserProductRequest {
+  int64 user_id = 1;
+}
+
+message ProductResponse {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  int64 user_id = 5;
+}
+
+message ProductListResponse {
+  repeated ProductResponse products = 1;
+}
