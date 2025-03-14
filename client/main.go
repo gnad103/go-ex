@@ -4,9 +4,10 @@ import (
 	"context"
 	"sync"
 
-	"github.com/yourusername/go-ex/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/gnad103/go-ex/proto"
 )
 
 type ProductServer struct {

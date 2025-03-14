@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/yourusername/go-ex/proto"
+	"github.com/gnad103/go-ex/proto"
 )
 
 type ProductServer struct {
@@ -81,68 +81,4 @@ func (s *ProductServer) GetProductsForUser(ctx context.Context, req *proto.UserP
 	}
 
 	return &proto.ProductListResponse{Products: userProducts}, nil
-}
-package main
-
-import (
-	"context"
-	"log"
-	"time"
-
-	"github.com/yourusername/go-ex/proto"
-	"google.golang.org/grpc"
-)
-
-func main() {
-	// Connect to user service
-	userConn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Failed to connect to user service: %v", err)
-	}
-	defer userConn.Close()
-	
-	userClient := proto.NewUserServiceClient(userConn)
-	
-	// Connect to product service
-	productConn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Failed to connect to product service: %v", err)
-	}
-	defer productConn.Close()
-	
-	productClient := proto.NewProductServiceClient(productConn)
-	
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	
-	// Create a user
-	user, err := userClient.CreateUser(ctx, &proto.CreateUserRequest{
-		Name:  "John Doe",
-		Email: "john@example.com",
-	})
-	if err != nil {
-		log.Fatalf("Could not create user: %v", err)
-	}
-	log.Printf("Created user: %v", user)
-	
-	// Create a product for the user
-	product, err := productClient.CreateProduct(ctx, &proto.CreateProductRequest{
-		Name:        "Laptop",
-		Description: "High-performance laptop",
-		Price:       999.99,
-		UserId:      user.Id,
-	})
-	if err != nil {
-		log.Fatalf("Could not create product: %v", err)
-	}
-	log.Printf("Created product: %v", product)
-	
-	// Get products for the user
-	products, err := productClient.GetProductsForUser(ctx, &proto.UserProductRequest{
-		UserId: user.Id,
-	})
-	if err != nil {
-		log.Fatalf("Could not get products for user: %v", err)
-	}
-	log.Printf("Products for user %d: %v", user.Id, products)
 }

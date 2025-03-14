@@ -4,9 +4,10 @@ import (
 	"log"
 	"net"
 
-	"github.com/yourusername/go-ex/product-service/service"
-	"github.com/yourusername/go-ex/proto"
 	"google.golang.org/grpc"
+
+	"github.com/gnad103/go-ex/product-service/service"
+	"github.com/gnad103/go-ex/proto"
 )
 
 func main() {
